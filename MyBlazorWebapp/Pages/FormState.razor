@@ -1,0 +1,44 @@
+﻿@page "/formstate"
+@using MyBlazorWebapp.StateObjects
+@inject ProfileState ProfileState
+
+<h3>FormState</h3>
+
+<EditForm Model="ProfileState">
+	<div class="form-control">
+		<div class="m-3">
+			<label for="first">FirstName:</label>
+			<InputText id="first" @bind-Value="FirstName"></InputText>
+		</div>
+		<div class="m-3">
+			<label for="last">LastName:</label>
+			<InputText id="last" @bind-Value="LastName"></InputText>
+		</div>
+	</div>
+	<button class="btn btn-primary" @onclick="@(() => { FirstNameChange(); LastNameChange(); })">Submit</button>
+</EditForm>
+
+@code {
+
+	protected override void OnInitialized()
+	{
+		FirstName = ProfileState.FirstName ?? string.Empty;
+		LastName = ProfileState.LastName ?? string.Empty;
+		base.OnInitialized();
+	}
+
+	public string FirstName { get; set; } = string.Empty;
+	public string LastName { get; set; } = string.Empty;
+
+	private void FirstNameChange()
+	{
+		ProfileState.FirstName = FirstName;
+		FirstName = ProfileState.FirstName;
+	}
+
+	private void LastNameChange()
+	{
+		ProfileState.LastName = LastName;
+	}
+
+}
